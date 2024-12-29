@@ -113,113 +113,51 @@ export const getSuggestionUsers = async (req: Request, res: Response) => {
       return;
     }
 
-    // Step 1: Users you follow but haven't followed you back
-    const notFollowedBack = await prisma.user.findMany({
-      where: {
-        following: {
-          some: {
-            followerId: Number(userId),
+    // level 1: user yang belum di follow back
+    const notFollowedBack = await prisma.user.findMany({ // temukan banyak user
+      where: { // yang
+        following: { // pada property followingnya
+          some: { // terdapat
+            followerId: Number(userId), // id pengguna saat ini
           },
         },
-        follower: {
-          none: {
-            followingId: Number(userId),
+        follower: { // dan pada property followernya
+          none: { // tidak terdapat
+            followingId: Number(userId), // id user saat ini
           },
         },
-        isDeleted: 0,
+        isDeleted: 0, // dan juga tidak dalam keadaan akun yang dihapus sementara (soft-delete)
       },
-      take: 5
+      take: 5 // tampilkan sebanyak 5 saja
     });
 
-    // Extract IDs from level 1 suggestions
+    // Ambil semua / ekstrak id-nya saja dari hasil notFollowedBack di atas dan jadikan sebagai suggestion level 1
     const level1Ids = notFollowedBack.map((user) => user.id);
 
-    // Step 2: Users followed by the users you follow but haven't followed you
-    const secondLevelSuggestions = await prisma.user.findMany({
-      where: {
-        id: {
-          notIn: [...level1Ids, Number(userId)], // Exclude level 1 IDs and current user
+    // level 2: Ambil atau temukan semua data user kecuali yang sudah ada di level 1 di atas dan urutkan dari yang paling banyak followernya>>>
+    const allRandomUsersOrderByMostFollowers = await prisma.user.findMany({ // temukan banyak user
+      where: { // yang
+        id: { // id-nya
+          notIn: [...level1Ids, Number(userId)], // tidak ada di level 1
         },
-        isDeleted: 0,
-        follower: {
-          none: {
-            followingId: Number(userId),
-          },
-        },
-        following: {
-          some: {
-            followerId: {
-              in: (
-                await prisma.userFollow.findMany({
-                  where: { followerId: Number(userId) },
-                  select: { followingId: true },
-                })
-              ).map((follow) => follow.followingId),
-            },
+        isDeleted: 0, // yang tidak dihapus
+        follower: { // yang pada property followernya
+          none: { // tidak terdapat
+            followingId: Number(userId), // id user yang sekarang
           },
         },
       },
-      take: 5,
-    });
-
-    // Extract IDs from level 2 suggestions
-    const level2Ids = secondLevelSuggestions.map((user) => user.id);
-
-    // Step 3: Users with the same following but haven't followed you
-    const sameFollowingNotFollowed = await prisma.user.findMany({
-      where: {
-        id: {
-          notIn: [...level1Ids, ...level2Ids, Number(userId)], // Exclude level 1, level 2 IDs, and current user
-        },
-        isDeleted: 0,
-        follower: {
-          none: {
-            followingId: Number(userId),
-          },
-        },
-        following: {
-          some: {
-            followingId: {
-              in: (
-                await prisma.userFollow.findMany({
-                  where: { followerId: Number(userId) },
-                  select: { followingId: true },
-                })
-              ).map((follow) => follow.followingId),
-            },
-          },
-        },
-      },
-      take: 5,
-    });
-
-    const level3Ids = sameFollowingNotFollowed.map((user) => user.id);
-
-    const allRandomUsersOrderByMostFollowers = await prisma.user.findMany({
-      where: {
-        id: {
-          notIn: [...level1Ids, ...level2Ids, ...level3Ids, Number(userId)],
-        },
-        isDeleted: 0,
-        follower: {
-          none: {
-            followingId: Number(userId),
-          },
-        },
-      },
-      orderBy: {
-        follower: {
-          _count: 'desc'
+      orderBy: { // dan urutkan hasilnya berdasarkan pada
+        follower: { // property follower
+          _count: 'desc' // yang jumlahnya paling besar ke paling kecil
         }
       },
-      take: 10
+      take: 10 // tampilkan hasilnya sebanyak 10 hasil.
     });
 
-    // Combine suggestions with prioritization
+    // Gabungkan kedua level di atas menjadi satu array yaitu suggestions:
     const suggestions = [
       ...notFollowedBack,
-      // ...secondLevelSuggestions,
-      // ...sameFollowingNotFollowed,
       ...allRandomUsersOrderByMostFollowers
     ];
 
