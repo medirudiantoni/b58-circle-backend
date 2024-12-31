@@ -3,7 +3,7 @@ import route from "./routes/index.route";
 import cors from "cors"
 const app = express();
 // const port = 5000;
-const port = 3000;
+const port = 8080;
 
 app.use(express.json());
 app.use("/public", express.static("public"));
@@ -12,7 +12,7 @@ app.use(cors())
 app.use("/api", route);
 
 app.use('/', (req, res) => {
-    res.send("Hello world!")
+    res.send("Hello world! hehe")
 });
 
 
