@@ -8,7 +8,9 @@ exports.login = login;
 const client_1 = require("@prisma/client");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const prisma = new client_1.PrismaClient();
+const prisma = new client_1.PrismaClient({
+    log: ['query', 'info', 'warn', 'error'],
+});
 const SALT_ROUNDS = 10;
 const SECRET_KEY = process.env.SECRET_KEY || 'aksjdkl2aj3djaklfji32dj2dj9ld92jd92j';
 const register = async (req, res) => {
