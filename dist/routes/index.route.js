@@ -16,6 +16,7 @@ const thread_controller_1 = require("../controllers/thread.controller");
 const router = express_1.default.Router();
 router.use('/auth', auth_route_1.default);
 router.use('/user/:id', user_controller_1.getUserById);
+router.use('/users', user_controller_1.getAllUsers);
 router.use('/users', authentication_1.authentication, user_route_1.default);
 router.use('/relation', authentication_1.authentication, follow_route_1.default); // /api/relation
 router.use('/thread', authentication_1.authentication, thread_route_1.default);

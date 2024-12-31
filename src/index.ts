@@ -15,7 +15,7 @@ console.log(process.env.DATABASE_URL);
 app.use("/api", route);
 
 app.use('/', (req, res) => {
-    res.send("Hello world! from express...!!")
+    res.send("Hello world! from express again...!!")
 });
 
 

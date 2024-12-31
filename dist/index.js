@@ -16,6 +16,6 @@ app.use((0, cors_1.default)());
 console.log(process.env.DATABASE_URL);
 app.use("/api", index_route_1.default);
 app.use('/', (req, res) => {
-    res.send("Hello world! from express...!!");
+    res.send("Hello world! from express again...!!");
 });
 app.listen(port, () => console.log(`Server running on port: ${port}`));
