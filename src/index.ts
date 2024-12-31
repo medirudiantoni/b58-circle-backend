@@ -2,7 +2,8 @@ import express from "express";
 import route from "./routes/index.route";
 import cors from "cors"
 const app = express();
-const port = 5000;
+// const port = 5000;
+const port = 3000;
 
 app.use(express.json());
 app.use("/public", express.static("public"));
