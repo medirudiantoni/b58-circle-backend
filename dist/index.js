@@ -14,6 +14,6 @@ app.use("/public", express_1.default.static("public"));
 app.use((0, cors_1.default)());
 app.use("/api", index_route_1.default);
 app.use('/', (req, res) => {
-    res.send("Hello world! hehe");
+    res.send("Hello world! hehe yihaa");
 });
 app.listen(port, () => console.log(`Server running on port: ${port}`));

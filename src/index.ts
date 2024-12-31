@@ -12,7 +12,7 @@ app.use(cors())
 app.use("/api", route);
 
 app.use('/', (req, res) => {
-    res.send("Hello world! hehe")
+    res.send("Hello world! hehe yihaa")
 });
 
 
