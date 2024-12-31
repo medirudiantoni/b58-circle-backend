@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "nodemon src/index.ts",
     "postinstall": "prisma generate",
-    "build": "rimraf dist && tsc",
+    "build": "tsc",
     "add-build": "git add dist",
     "prepare": "husky",
     "lint": "eslint --fix",
