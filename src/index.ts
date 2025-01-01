@@ -3,14 +3,15 @@ import route from "./routes/index.route";
 import cors from "cors";
 import "dotenv/config";
 const app = express();
-// const port = 5000;
-const port = 8080;
+const port = 5000;
+// const port = 8080;
 
 app.use(express.json());
 app.use("/public", express.static("public"));
-app.use(cors())
+app.use(cors());
 
-console.log(process.env.DATABASE_URL);
+console.log('db url: ', process.env.DATABASE_URL);
+console.log('direct url: ', process.env.DIRECT_URL);
 
 app.use("/api", route);
 
