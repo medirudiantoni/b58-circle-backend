@@ -4,19 +4,15 @@ import cors from "cors";
 import "dotenv/config";
 const app = express();
 const port = 5000;
-// const port = 8080;
 
 app.use(express.json());
 app.use("/public", express.static("public"));
 app.use(cors());
 
-console.log('db url: ', process.env.DATABASE_URL);
-console.log('direct url: ', process.env.DIRECT_URL);
-
 app.use("/api", route);
 
 app.use('/', (req, res) => {
-    res.send("Hello world! from express again...!!")
+    res.send("Hello world! ring ring ring ring!!!...")
 });
 
 

@@ -9,12 +9,13 @@ import { authentication } from "../middlewares/authentication";
 import { getAllUsers, getUserById } from "../controllers/user.controller";
 import { createLike, deleteLike } from "../controllers/like.controller";
 import { getAllThreads } from "../controllers/thread.controller";
+import { searchUser } from "../controllers/search.controller";
 const router = express.Router();
 
 router.use('/auth', authRoute);
 router.use('/user/:id', getUserById);
-router.use('/users', getAllUsers);
 router.use('/users', authentication, userRoute);
+// router.use('/users/all', getAllUsers);
 router.use('/relation', authentication, followRoute); // /api/relation
 router.use('/thread', authentication, threadRoute);
 router.use('/reply', authentication, replyRoute);
@@ -22,5 +23,6 @@ router.use('/like', authentication, createLike);
 router.use('/unlike', authentication, deleteLike);
 
 router.get('/threads', getAllThreads);
+router.get('/search', searchUser);
 
 export default router;

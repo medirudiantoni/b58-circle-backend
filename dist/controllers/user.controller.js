@@ -8,9 +8,7 @@ const client_1 = require("@prisma/client");
 const upload_file_1 = __importDefault(require("../middlewares/upload-file"));
 const cloudinary_1 = require("../middlewares/cloudinary");
 // import User from '../types/user.type';
-const prisma = new client_1.PrismaClient({
-    log: ['query', 'info', 'warn', 'error'],
-});
+const prisma = new client_1.PrismaClient();
 const getAllUsers = async (req, res) => {
     try {
         const result = await prisma.user.findMany({

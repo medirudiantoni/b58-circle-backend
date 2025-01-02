@@ -3,9 +3,7 @@ import { PrismaClient } from '@prisma/client';
 import upload from '../middlewares/upload-file';
 import { uploadToCloudinary } from '../middlewares/cloudinary';
 // import User from '../types/user.type';
-const prisma = new PrismaClient({
-  log: ['query', 'info', 'warn', 'error'],
-});
+const prisma = new PrismaClient();
 
 interface MulterRequest extends Request {
   files?: {
