@@ -3,6 +3,7 @@ import * as replyController from "../../controllers/reply.controller";
 const reply = express.Router();
 
 reply.post("/", replyController.createReply);
+reply.patch("/:id", replyController.updateReply);
 reply.get("/", replyController.getAllReply);
 reply.get("/:id", replyController.getReplyById); // /api/reply/:id
 reply.delete("/:id", replyController.deleteReply);

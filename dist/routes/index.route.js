@@ -18,12 +18,11 @@ const router = express_1.default.Router();
 router.use('/auth', auth_route_1.default);
 router.use('/user/:id', user_controller_1.getUserById);
 router.use('/users', authentication_1.authentication, user_route_1.default);
-// router.use('/users/all', getAllUsers);
 router.use('/relation', authentication_1.authentication, follow_route_1.default); // /api/relation
 router.use('/thread', authentication_1.authentication, thread_route_1.default);
 router.use('/reply', authentication_1.authentication, reply_route_1.default);
 router.use('/like', authentication_1.authentication, like_controller_1.createLike);
 router.use('/unlike', authentication_1.authentication, like_controller_1.deleteLike);
 router.get('/threads', thread_controller_1.getAllThreads);
-router.get('/search', search_controller_1.searchUser);
+router.get('/search', authentication_1.authentication, search_controller_1.searchUser);
 exports.default = router;

@@ -129,7 +129,7 @@ const getSuggestionUsers = async (req, res) => {
                 },
                 isDeleted: 0, // dan juga tidak dalam keadaan akun yang dihapus sementara (soft-delete)
             },
-            take: 5 // tampilkan sebanyak 5 saja
+            take: 3 // tampilkan sebanyak 5 saja
         });
         // Ambil semua / ekstrak id-nya saja dari hasil notFollowedBack di atas dan jadikan sebagai suggestion level 1
         const level1Ids = notFollowedBack.map((user) => user.id);
@@ -151,7 +151,7 @@ const getSuggestionUsers = async (req, res) => {
                     _count: 'desc' // yang jumlahnya paling besar ke paling kecil
                 }
             },
-            take: 10 // tampilkan hasilnya sebanyak 10 hasil.
+            take: 3 // tampilkan hasilnya sebanyak 3 hasil.
         });
         // Gabungkan kedua level di atas menjadi satu array yaitu suggestions:
         const suggestions = [

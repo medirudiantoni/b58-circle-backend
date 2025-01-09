@@ -30,6 +30,7 @@ const express_1 = __importDefault(require("express"));
 const replyController = __importStar(require("../../controllers/reply.controller"));
 const reply = express_1.default.Router();
 reply.post("/", replyController.createReply);
+reply.patch("/:id", replyController.updateReply);
 reply.get("/", replyController.getAllReply);
 reply.get("/:id", replyController.getReplyById); // /api/reply/:id
 reply.delete("/:id", replyController.deleteReply);

@@ -62,9 +62,22 @@ export const getUserById = async (req: Request, res: Response) => {
         },
         Thread: {
           include: {
-            Like: true,
+            Like: {
+              include: {
+                User: true,
+              }
+            },
             User: true,
-            Reply: true
+            Reply: {
+              include: {
+                User: true,
+                Like: true,
+                Children: true,
+              },
+              orderBy: {
+                id: 'desc'
+              }
+            }
           }
         }
       },

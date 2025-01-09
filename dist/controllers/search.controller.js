@@ -5,6 +5,7 @@ const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
 const searchUser = async (req, res) => {
     const { query } = req.query;
+    const userId = req.user?.id;
     const searchQuery = query ? query : "";
     try {
         const result = await prisma.user.findMany({
@@ -14,6 +15,9 @@ const searchUser = async (req, res) => {
                     { username: { contains: searchQuery, mode: 'insensitive' } },
                     { email: { contains: searchQuery, mode: 'insensitive' } },
                     { bio: { contains: searchQuery, mode: 'insensitive' } },
+                ],
+                NOT: [
+                    { id: Number(userId) }
                 ]
             },
             orderBy: {
@@ -27,7 +31,7 @@ const searchUser = async (req, res) => {
                         following: true
                     }
                 }
-            }
+            },
         });
         if (searchQuery.length < 1) {
             res.status(200).json({

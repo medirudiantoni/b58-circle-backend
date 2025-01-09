@@ -5,6 +5,7 @@ const prisma = new PrismaClient();
 
 export const searchUser = async (req: Request, res: Response) => {
     const { query } = req.query;
+    const userId = req.user?.id;
 
     const searchQuery = query ? (query as string) : "";
     try {
@@ -15,6 +16,9 @@ export const searchUser = async (req: Request, res: Response) => {
                     { username: { contains: searchQuery, mode: 'insensitive' } },
                     { email: { contains: searchQuery, mode: 'insensitive' } },
                     { bio: { contains: searchQuery, mode: 'insensitive' } },
+                ],
+                NOT: [
+                    {id: Number(userId)}
                 ]
             },
             orderBy: {
@@ -28,7 +32,7 @@ export const searchUser = async (req: Request, res: Response) => {
                         following: true
                     }
                 }
-            }
+            },
         });
 
         if(searchQuery.length < 1){

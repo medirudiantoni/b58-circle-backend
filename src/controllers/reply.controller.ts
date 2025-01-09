@@ -113,36 +113,17 @@ export const getReplyById = async (req: Request, res: Response) => {
       include: {
         User: true,
         Like: true,
+        Thread: true,
+        Parent: true,
         Children: {
           include: {
             User: true,
             Like: true,
-            Children: {
-              include: {
-                User: true,
-                Like: true,
-                Children: {
-                  include: {
-                    User: true,
-                    Like: true,
-                    Children: {
-                      include: {
-                        User: true,
-                        Like: true,
-                        Children: {
-                          include: {
-                            User: true,
-                            Like: true,
-                            Children: true,
-                          },
-                        },
-                      },
-                    },
-                  },
-                },
-              },
-            },
+            Children: true
           },
+          orderBy: {
+            id: 'desc'
+          }
         },
       },
     });
@@ -160,7 +141,7 @@ export const getReplyById = async (req: Request, res: Response) => {
 export const updateReply = [
   upload.single('image'),
   async (req: Request, res: Response) => {
-  const { content, authorId, threadId, parentId } = req.body;
+  const { content, authorId, threadId } = req.body;
   const { id } = req.params;
   try {
     let uploadResult;
@@ -171,6 +152,8 @@ export const updateReply = [
     const theReply = await prisma.reply.findUnique({
       where: { id: Number(id) },
     });
+
+    const parentId = theReply?.parentId ? theReply.parentId : undefined;
     
     const result = await prisma.reply.update({
         data: {
@@ -188,7 +171,7 @@ export const updateReply = [
     });
   } catch (error) {
     res.status(500).json({
-      message: 'Server error',
+      message: 'Server error @#@$',
     });
   }
 }];
@@ -208,12 +191,18 @@ export const deleteReply = async (req: Request, res: Response) => {
         return;
     };
 
-    await prisma.reply.update({
-      data: {
-        isDeleted: true
-      },
-      where: { id: Number(id) },
+    await prisma.reply.delete({
+      where: {
+        id: Number(id)
+      }
     });
+
+    // await prisma.reply.update({
+    //   data: {
+    //     isDeleted: true
+    //   },
+    //   where: { id: Number(id) },
+    // });
     res.status(200).json({
       message: 'DELETE Reply success',
     });

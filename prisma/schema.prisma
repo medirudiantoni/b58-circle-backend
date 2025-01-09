@@ -3,9 +3,9 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  // directUrl = env("DIRECT_URL")
 }
 
 model Like {
@@ -31,9 +31,9 @@ model Reply {
   isDeleted Boolean  @default(false)
   Like      Like[]
   User      User     @relation(fields: [authorId], references: [id])
-  Parent    Reply?   @relation("ReplyToReply", fields: [parentId], references: [id])
+  Parent    Reply?   @relation("ReplyToReply", fields: [parentId], references: [id], onDelete: Cascade)
   Children  Reply[]  @relation("ReplyToReply")
-  Thread    Thread   @relation(fields: [threadId], references: [id])
+  Thread    Thread   @relation(fields: [threadId], references: [id], onDelete: Cascade)
 }
 
 model Thread {

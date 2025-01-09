@@ -15,7 +15,6 @@ const router = express.Router();
 router.use('/auth', authRoute);
 router.use('/user/:id', getUserById);
 router.use('/users', authentication, userRoute);
-// router.use('/users/all', getAllUsers);
 router.use('/relation', authentication, followRoute); // /api/relation
 router.use('/thread', authentication, threadRoute);
 router.use('/reply', authentication, replyRoute);
@@ -23,6 +22,6 @@ router.use('/like', authentication, createLike);
 router.use('/unlike', authentication, deleteLike);
 
 router.get('/threads', getAllThreads);
-router.get('/search', searchUser);
+router.get('/search', authentication, searchUser);
 
 export default router;
