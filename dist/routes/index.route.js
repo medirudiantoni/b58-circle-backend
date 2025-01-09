@@ -14,6 +14,7 @@ const user_controller_1 = require("../controllers/user.controller");
 const like_controller_1 = require("../controllers/like.controller");
 const thread_controller_1 = require("../controllers/thread.controller");
 const search_controller_1 = require("../controllers/search.controller");
+const token_validation_1 = require("../controllers/token.validation");
 const router = express_1.default.Router();
 router.use('/auth', auth_route_1.default);
 router.use('/user/:id', user_controller_1.getUserById);
@@ -25,4 +26,5 @@ router.use('/like', authentication_1.authentication, like_controller_1.createLik
 router.use('/unlike', authentication_1.authentication, like_controller_1.deleteLike);
 router.get('/threads', thread_controller_1.getAllThreads);
 router.get('/search', authentication_1.authentication, search_controller_1.searchUser);
+router.post('/validate-token', token_validation_1.validateToken);
 exports.default = router;

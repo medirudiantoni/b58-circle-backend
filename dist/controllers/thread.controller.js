@@ -37,6 +37,8 @@ exports.createNewThread = [
     },
 ];
 const getAllThreads = async (req, res) => {
+    // const { page } = req.query;
+    // jumlh = page * jumalh yang ditampilkan
     try {
         const data = await prisma.thread.findMany({
             include: {
@@ -56,7 +58,9 @@ const getAllThreads = async (req, res) => {
             },
             orderBy: {
                 id: "desc"
-            }
+            },
+            // skip: jumlah,
+            // take: jumlah yang ditampilkan 
         });
         res.status(200).json({
             message: 'GET all threads SUCCESS!',

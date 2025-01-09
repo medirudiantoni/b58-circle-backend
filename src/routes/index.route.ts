@@ -10,6 +10,7 @@ import { getAllUsers, getUserById } from "../controllers/user.controller";
 import { createLike, deleteLike } from "../controllers/like.controller";
 import { getAllThreads } from "../controllers/thread.controller";
 import { searchUser } from "../controllers/search.controller";
+import { validateToken } from "../controllers/token.validation";
 const router = express.Router();
 
 router.use('/auth', authRoute);
@@ -23,5 +24,6 @@ router.use('/unlike', authentication, deleteLike);
 
 router.get('/threads', getAllThreads);
 router.get('/search', authentication, searchUser);
+router.post('/validate-token', validateToken);
 
 export default router;
